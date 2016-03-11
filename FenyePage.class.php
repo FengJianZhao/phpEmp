@@ -9,6 +9,7 @@
 		public $pageNow;	//用户指定的
 		public $pageCount;  //计算得来
 		public $navigate;  //分页导航
+		public $gotoUrl;
 	}
 			
 	

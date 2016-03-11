@@ -64,24 +64,24 @@
 			
 			
 			$fenyePage->navigate="<table  id='tab' border=1 cellspacing=0><tr>";
-			if($start>=10){
-			$fenyePage->navigate.="<td><a href='empList.php?page=$start'><<</a></td>";
+			if($fenyePage->pageNow>10){
+			$fenyePage->navigate.="<td><a href='{$fenyePage->gotoUrl}?page=".($start-1)."'><<</a></td>";
 			}
 			//上一页
 			if($fenyePage->pageNow>1){
 				$prePage = $fenyePage->pageNow-1;
-				$fenyePage->navigate.="<td><a href='empList.php?page=$prePage'>上一页</a></td>";
+				$fenyePage->navigate.="<td><a href='{$fenyePage->gotoUrl}?page=$prePage'>上一页</a></td>";
 			}
 			for($start=$index;$start<$index+10;$start++){
-				$fenyePage->navigate.="<td><a href='empList.php?page=$start'>$start</a></td> ";
+				$fenyePage->navigate.="<td><a href='{$fenyePage->gotoUrl}?page=$start'>$start</a></td> ";
 			}
 			
 			//下一页
 			if($fenyePage->pageNow<$fenyePage->pageCount){
 				$nextPage=$fenyePage->pageNow+1;
-				$fenyePage->navigate.="<td><a href='empList.php?page=$nextPage'>下一页</a></td>";
+				$fenyePage->navigate.="<td><a href='{$fenyePage->gotoUrl}?page=$nextPage'>下一页</a></td>";
 			}
-			$fenyePage->navigate.="<td><a href='empList.php?page=$start'>>></a></td>";
+			$fenyePage->navigate.="<td><a href='{$fenyePage->gotoUrl}?page=$start'>>></a></td>";
 			$fenyePage->navigate.="</tr></table>";
 			//显示当前页
 			$fenyePage->navigate.="当前页{$fenyePage->pageNow}/共{$fenyePage->pageCount}页<br />";

@@ -38,12 +38,20 @@
 		<?php	
 			require_once 'EmpService.class.php';
 			require_once 'FenyePage.class.php';	
+			require_once 'commom.php';
+			//设置session防止非法用户不登陆直接跳至该页面
+			checkUserValidate();
 			
+			//创建一个EmpService实例
+			$empService = new EmpService();
 			//创建一个FenyePage实例
 			$fenyePage = new FenyePage();
 			
 			$fenyePage->pageNow=1;
 			$fenyePage->pageSize=10;
+			$fenyePage->gotoUrl="empList.php";
+			
+			
 			
 			if(empty($_GET['page'])){
 			$fenyePage->pageNow=1;
@@ -54,8 +62,8 @@
 			
 			echo "<input type='hidden' id='pagenow' value='$fenyePage->pageNow'/>";
 			
-			//创建一个EmpService实例
-			$empService = new EmpService();
+			
+		
 			$empService->getFenyePage($fenyePage);
 			
 			//以表格形式显示数据
@@ -67,7 +75,7 @@
 				$row = $fenyePage->res_array[$i];
 				echo "<tr>";
 				echo "<td>$row[id]</td><td>$row[name]</td><td>$row[grade]</td><td>$row[email]</td><td>$row[salary]</td>";
-				echo "<td><a href='#'>修改</a> <a href='#'>删除</a></td>";
+				echo "<td><a href='updateEmpUI.php?id=$row[id]'>修改</a> <a onclick='return confirmDel({$row['id']})' href='empProcess.php?flag=del&id={$row['id']}'>删除</a></td>";
 				echo "</tr>";
 			}
 			echo "</table>";
@@ -76,15 +84,10 @@
 			?>	
 			
 			<script type="text/javascript">
+					function confirmDel(id){
+					return window.confirm("是否要删除id="+id+"的用户？");
 			
-				var oPagenow = document.getElementById('pagenow');
-				var oTable = document.getElementById('tab');
-				var oNow = oPagenow.value;
-				if(oNow==1){
-					oNow=0;
-				}
-				var oA = oTable.getElementsByTagName('a');
-					oA[oNow].parentNode.className='now';
+					}
 			</script>
 			
 			<form action="empList.php" method="get">
